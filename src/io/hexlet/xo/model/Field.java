@@ -9,9 +9,9 @@ public class Field {
 
     private static final int FIELD_SIZE = 3;
 
-    private static final int MIN_COORDINATE = 0;
+    static final int MIN_COORDINATE = 0;
 
-    private static final int MAX_COORDINATE = FIELD_SIZE - 1;
+    static final int MAX_COORDINATE = FIELD_SIZE - 1;
 
     private final Figure[][] field = new Figure[FIELD_SIZE][FIELD_SIZE];
 

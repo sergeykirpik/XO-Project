@@ -47,14 +47,82 @@ public class FieldTest {
     }
 
     @Test
-    public void testGetFigureWhenXIsLessThanZero() throws Exception {
+    public void testGetFigureForMinCoordinates() throws Exception {
         final Field field = new Field();
-        final Point inputPoint = new Point(-1, 0);
+        final Point inputPoint = new Point(Field.MIN_COORDINATE, Field.MIN_COORDINATE);
+
+        try {
+            field.getFigure(inputPoint);
+        } catch (InvalidPointException e) {
+            fail();
+        }
+
+    }
+
+    @Test
+    public void testGetFigureForXLessThanMinCoordinate() throws Exception {
+        final Field field = new Field();
+        final Point inputPoint = new Point(Field.MIN_COORDINATE-1, Field.MIN_COORDINATE);
 
         try {
             field.getFigure(inputPoint);
             fail();
-        } catch(InvalidPointException e) {}
+        } catch (InvalidPointException e) {
+        }
 
     }
+
+    @Test
+    public void testGetFigureForYLessThanMinCoordinate() throws Exception {
+        final Field field = new Field();
+        final Point inputPoint = new Point(Field.MIN_COORDINATE, Field.MIN_COORDINATE-1);
+
+        try {
+            field.getFigure(inputPoint);
+            fail();
+        } catch (InvalidPointException e) {
+        }
+
+    }
+
+    @Test
+    public void testGetFigureForMaxCoordinates() throws Exception {
+        final Field field = new Field();
+        final Point inputPoint = new Point(Field.MAX_COORDINATE, Field.MAX_COORDINATE);
+
+        try {
+            field.getFigure(inputPoint);
+        } catch (InvalidPointException e) {
+            fail();
+        }
+
+    }
+
+    @Test
+    public void testGetFigureForXGreaterThanMaxCoordinate() throws Exception {
+        final Field field = new Field();
+        final Point inputPoint = new Point(Field.MAX_COORDINATE+1, Field.MAX_COORDINATE);
+
+        try {
+            field.getFigure(inputPoint);
+            fail();
+        } catch (InvalidPointException e) {
+        }
+
+    }
+
+    @Test
+    public void testGetFigureForYGreaterThanMaxCoordinate() throws Exception {
+        final Field field = new Field();
+        final Point inputPoint = new Point(Field.MAX_COORDINATE, Field.MAX_COORDINATE+1);
+
+        try {
+            field.getFigure(inputPoint);
+            fail();
+        } catch (InvalidPointException e) {
+        }
+
+    }
+
+
 }
