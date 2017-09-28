@@ -48,6 +48,85 @@ public class FieldTest {
     }
 
     @Test
+    public void testSetFigureForMinCoordinates() throws Exception {
+        final Field field = new Field();
+        final Point inputPoint = new Point(Field.MIN_COORDINATE, Field.MIN_COORDINATE);
+        final Figure inputFigure = Figure.O;
+
+        field.setFigure(inputPoint, inputFigure);
+    }
+
+    @Test
+    public void testSetFigureForXLessThanMinCoordinate() throws Exception {
+        final Field field = new Field();
+        final Point inputPoint = new Point(Field.MIN_COORDINATE-1, Field.MIN_COORDINATE);
+        final Figure inputFigure = Figure.O;
+
+        try {
+            field.setFigure(inputPoint, inputFigure);
+            fail();
+        } catch (InvalidPointException e) {
+        }
+
+    }
+
+    @Test
+    public void testSetFigureForYLessThanMinCoordinate() throws Exception {
+        final Field field = new Field();
+        final Point inputPoint = new Point(Field.MIN_COORDINATE, Field.MIN_COORDINATE-1);
+        final Figure inputFigure = Figure.O;
+
+        try {
+            field.setFigure(inputPoint, inputFigure);
+            fail();
+        } catch (InvalidPointException e) {
+        }
+
+    }
+
+    @Test
+    public void testSetFigureForMaxCoordinates() throws Exception {
+        final Field field = new Field();
+        final Point inputPoint = new Point(Field.MAX_COORDINATE, Field.MAX_COORDINATE);
+        final Figure inputFigure = Figure.O;
+
+        try {
+            field.setFigure(inputPoint, inputFigure);
+        } catch (InvalidPointException e) {
+            fail();
+        }
+
+    }
+
+    @Test
+    public void testSetFigureForXGreaterThanMaxCoordinate() throws Exception {
+        final Field field = new Field();
+        final Point inputPoint = new Point(Field.MAX_COORDINATE+1, Field.MAX_COORDINATE);
+        final Figure inputFigure = Figure.O;
+
+        try {
+            field.setFigure(inputPoint, inputFigure);
+            fail();
+        } catch (InvalidPointException e) {
+        }
+
+    }
+
+    @Test
+    public void testSetFigureForYGreaterThanMaxCoordinate() throws Exception {
+        final Field field = new Field();
+        final Point inputPoint = new Point(Field.MAX_COORDINATE, Field.MAX_COORDINATE+1);
+        final Figure inputFigure = Figure.O;
+
+        try {
+            field.setFigure(inputPoint, inputFigure);
+            fail();
+        } catch (InvalidPointException e) {
+        }
+
+    }
+
+    @Test
     public void testGetFigureForMinCoordinates() throws Exception {
         final Field field = new Field();
         final Point inputPoint = new Point(Field.MIN_COORDINATE, Field.MIN_COORDINATE);
@@ -124,6 +203,7 @@ public class FieldTest {
         }
 
     }
+
 
     @Test
     public void testSetFigureWhenAlreadyOccupied() throws Exception {
