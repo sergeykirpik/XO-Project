@@ -4,8 +4,7 @@ import io.hexlet.xo.model.Field;
 import io.hexlet.xo.model.Figure;
 import io.hexlet.xo.model.exception.InvalidPointException;
 
-import java.awt.*;
-import java.util.Arrays;
+import java.awt.Point;
 import java.util.function.Function;
 
 public class WinnerController {
