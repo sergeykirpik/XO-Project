@@ -11,30 +11,47 @@ public class WinnerController {
 
     public Figure getWinner(final Field field) {
 
+        class Tester {
+            Figure test(
+                    int startPointCount,
+                    Point startPoint,
+                    Function<Point, Point> startPointChanger,
+                    Function<Point, Point> pointChanger)
+                throws InvalidPointException {
+
+                Point sPoint = startPoint;
+                for (int i = 0; i < startPointCount; i++) {
+                    Point point = new Point(sPoint);
+                    Figure[] figures = getFigures(field, point, pointChanger);
+                    if (testFigures(figures)) return figures[0];
+                    sPoint = startPointChanger.apply(sPoint);
+                }
+                return null;
+            }
+        }
+
         try {
-            Figure[] figures;
-            int x, y;
+            Figure[] figures = new Figure[4];
 
-            for (x = 0; x < field.getSize(); x++) {
-                figures = getFigures(field, new Point(x, 0),
-                                       p -> new Point(p.x, p.y+1));
-                if (test(figures)) return figures[0];
+            figures[0] = new Tester().test(3, new Point(0, 0),
+                    p -> new Point(p.x+1,p.y),
+                    p -> new Point(p.x, p.y+1));
+
+            figures[1] = new Tester().test(3, new Point(0, 0),
+                    p -> new Point(p.x,p.y+1),
+                    p -> new Point(p.x+1, p.y));
+
+            figures[2] = new Tester().test(1, new Point(0, 0),
+                    p -> new Point(p.x,p.y),
+                    p -> new Point(p.x+1, p.y+1));
+
+            figures[3] = new Tester().test(1, new Point(0, 2),
+                    p -> new Point(p.x,p.y),
+                    p -> new Point(p.x+1, p.y-1));
+
+            for (Figure f : figures) {
+                if (f != null) return f;
             }
-
-            for (y = 0; y < field.getSize(); y++) {
-                figures = getFigures(field, new Point(0, y),
-                                       p -> new Point(p.x+1, p.y));
-                if (test(figures)) return figures[0];
-            }
-
-            figures = getFigures(field, new Point(0, 0),
-                                   p -> new Point(p.x+1, p.y+1));
-            if (test(figures)) return figures[0];
-
-            figures = getFigures(field, new Point(0, 2),
-                                   p -> new Point(p.x+1, p.y-1));
-
-            if (test(figures)) return figures[0];
 
         } catch (InvalidPointException e) {
             e.printStackTrace();
@@ -57,7 +74,7 @@ public class WinnerController {
         return result;
     }
 
-    private boolean test(Figure[] figures) {
+    private boolean testFigures(Figure[] figures) {
         if (       figures[0] != null
                 && figures[0] == figures[1]
                 && figures[0] == figures[2])
