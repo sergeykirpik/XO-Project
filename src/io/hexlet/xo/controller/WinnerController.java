@@ -19,7 +19,7 @@ public class WinnerController {
                 f2 = field.getFigure(new Point(x, 1));
                 f3 = field.getFigure(new Point(x, 2));
 
-                if (f1 == f2 && f1 == f3) return f1;
+                if (check(f1, f2, f3)) return f1;
             }
 
             for (y = 0; y < field.getSize(); y++) {
@@ -27,25 +27,29 @@ public class WinnerController {
                 f2 = field.getFigure(new Point(1, y));
                 f3 = field.getFigure(new Point(2, y));
 
-                if (f1 == f2 && f1 == f3) return f1;
+                if (check(f1, f2, f3)) return f1;
             }
 
             f1 = field.getFigure(new Point(0, 0));
             f2 = field.getFigure(new Point(1, 1));
             f3 = field.getFigure(new Point(2, 2));
 
-            if (f1 == f2 && f1 == f3) return f1;
+            if (check(f1, f2, f3)) return f1;
 
             f1 = field.getFigure(new Point(0, 2));
             f2 = field.getFigure(new Point(1, 1));
             f3 = field.getFigure(new Point(2, 0));
 
-            if (f1 == f2 && f1 == f3) return f1;
+            if (check(f1, f2, f3)) return f1;
 
         } catch (InvalidPointException e) {
             e.printStackTrace();
         }
 
         return null;
+    }
+
+    private boolean check(Figure f1, Figure f2, Figure f3) {
+        return f1 != null && f1 == f2 && f1 == f3;
     }
 }
