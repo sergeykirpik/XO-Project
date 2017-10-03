@@ -5,6 +5,8 @@ import io.hexlet.xo.model.Figure;
 import io.hexlet.xo.model.exception.InvalidPointException;
 
 import java.awt.Point;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Function;
 
 public class WinnerController {
@@ -12,7 +14,7 @@ public class WinnerController {
     public Figure getWinner(final Field field) {
 
         class Tester {
-            Figure test(
+            private Figure test(
                     int startPointCount,
                     Point startPoint,
                     Function<Point, Point> startPointChanger,
@@ -31,26 +33,32 @@ public class WinnerController {
         }
 
         try {
-            Figure[] figures = new Figure[4];
+            List<Figure> figures = new ArrayList<>();
+            Tester tester = new Tester();
+            Figure f;
 
-            figures[0] = new Tester().test(3, new Point(0, 0),
+            f = tester.test(3, new Point(0, 0),
                     p -> new Point(p.x+1,p.y),
                     p -> new Point(p.x, p.y+1));
+            figures.add(f);
 
-            figures[1] = new Tester().test(3, new Point(0, 0),
+            f = tester.test(3, new Point(0, 0),
                     p -> new Point(p.x,p.y+1),
                     p -> new Point(p.x+1, p.y));
+            figures.add(f);
 
-            figures[2] = new Tester().test(1, new Point(0, 0),
+            f = tester.test(1, new Point(0, 0),
                     p -> new Point(p.x,p.y),
                     p -> new Point(p.x+1, p.y+1));
+            figures.add(f);
 
-            figures[3] = new Tester().test(1, new Point(0, 2),
+            f = tester.test(1, new Point(0, 2),
                     p -> new Point(p.x,p.y),
                     p -> new Point(p.x+1, p.y-1));
+            figures.add(f);
 
-            for (Figure f : figures) {
-                if (f != null) return f;
+            for (Figure ff : figures) {
+                if (ff != null) return f;
             }
 
         } catch (InvalidPointException e) {
@@ -75,11 +83,8 @@ public class WinnerController {
     }
 
     private boolean testFigures(Figure[] figures) {
-        if (       figures[0] != null
+        return figures[0] != null
                 && figures[0] == figures[1]
-                && figures[0] == figures[2])
-            return true;
-
-        return false;
+                && figures[0] == figures[2];
     }
 }
