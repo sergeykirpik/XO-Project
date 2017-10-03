@@ -8,7 +8,16 @@ import java.awt.Point;
 
 public class WinnerController {
 
-    public Figure getWinner(final Field field) {
+    private final Field field;
+
+    private final int countToWin;
+
+    public WinnerController(int countToWin, Field field) {
+        this.countToWin = countToWin;
+        this.field = field;
+    }
+
+    public Figure getWinner() {
 
         try {
             Figure f1, f2, f3;
