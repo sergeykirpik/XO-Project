@@ -30,11 +30,11 @@ public class WinnerControllerTest {
         Field field;
         Figure winner;
 
-        field = new Field();
+        field = new Field(3);
         winner = new WinnerController().getWinner(field);
         assertNull(winner);
 
-        field = new Field();
+        field = new Field(3);
         field.setFigure(0, 0, Figure.X);
         field.setFigure(1, 0, Figure.O);
         field.setFigure(2, 0, Figure.X);
@@ -47,7 +47,7 @@ public class WinnerControllerTest {
         Field field;
         Figure winner;
 
-        field = new Field();
+        field = new Field(3);
         field.setFigure(0, 0, expectedWinner);
         field.setFigure(0, 1, expectedWinner);
         field.setFigure(0, 2, expectedWinner);
@@ -55,7 +55,7 @@ public class WinnerControllerTest {
         winner = new WinnerController().getWinner(field);
         assertEquals(expectedWinner, winner);
 
-        field = new Field();
+        field = new Field(3);
         field.setFigure(1, 0, expectedWinner);
         field.setFigure(1, 1, expectedWinner);
         field.setFigure(1, 2, expectedWinner);
@@ -63,7 +63,7 @@ public class WinnerControllerTest {
         winner = new WinnerController().getWinner(field);
         assertEquals(expectedWinner, winner);
 
-        field = new Field();
+        field = new Field(3);
         field.setFigure(2, 0, expectedWinner);
         field.setFigure(2, 1, expectedWinner);
         field.setFigure(2, 2, expectedWinner);
@@ -77,7 +77,7 @@ public class WinnerControllerTest {
         Field field;
         Figure winner;
 
-        field = new Field();
+        field = new Field(3);
         field.setFigure(0, 0, expectedWinner);
         field.setFigure(1, 0, expectedWinner);
         field.setFigure(2, 0, expectedWinner);
@@ -85,7 +85,7 @@ public class WinnerControllerTest {
         winner = new WinnerController().getWinner(field);
         assertEquals(expectedWinner, winner);
 
-        field = new Field();
+        field = new Field(3);
         field.setFigure(0, 1, expectedWinner);
         field.setFigure(1, 1, expectedWinner);
         field.setFigure(2, 1, expectedWinner);
@@ -93,7 +93,7 @@ public class WinnerControllerTest {
         winner = new WinnerController().getWinner(field);
         assertEquals(expectedWinner, winner);
 
-        field = new Field();
+        field = new Field(3);
         field.setFigure(0, 2, expectedWinner);
         field.setFigure(1, 2, expectedWinner);
         field.setFigure(2, 2, expectedWinner);
@@ -107,7 +107,7 @@ public class WinnerControllerTest {
         Field field;
         Figure winner;
 
-        field = new Field();
+        field = new Field(3);
         field.setFigure(0, 0, expectedWinner);
         field.setFigure(1, 1, expectedWinner);
         field.setFigure(2, 2, expectedWinner);
@@ -115,7 +115,7 @@ public class WinnerControllerTest {
         winner = new WinnerController().getWinner(field);
         assertEquals(expectedWinner, winner);
 
-        field = new Field();
+        field = new Field(3);
         field.setFigure(2, 0, expectedWinner);
         field.setFigure(1, 1, expectedWinner);
         field.setFigure(0, 2, expectedWinner);
