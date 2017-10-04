@@ -5,51 +5,62 @@ import io.hexlet.xo.model.Figure;
 import io.hexlet.xo.model.exception.InvalidPointException;
 
 import java.awt.Point;
+import java.util.ArrayList;
+import java.util.List;
 
-public class WinnerController {
+class WinnerController {
 
     private final Field field;
 
     private final int countToWin;
 
-    public WinnerController(int countToWin, Field field) {
+    WinnerController(int countToWin, Field field) {
         this.countToWin = countToWin;
         this.field = field;
     }
 
-    public Figure getWinner() {
+    Figure getWinner() {
 
         try {
-            Figure f1, f2, f3;
-            int x, y;
+            List<Figure> figures = new ArrayList<>();
+            int x, y, c;
+            Figure f;
 
-            for (x = 0; x < field.getSize(); x++) {
-                f1 = field.getFigure(new Point(x, 0));
-                f2 = field.getFigure(new Point(x, 1));
-                f3 = field.getFigure(new Point(x, 2));
-
-                if (check(f1, f2, f3)) return f1;
+            // Horizontal scan
+            for (x = field.minX(); x <= field.maxX(); x++) {
+                figures.clear();
+                for (y = field.minY(); y <= field.maxY(); y++) {
+                    f = field.getFigure(new Point(x, y));
+                    figures.add(f);
+                }
+                if (check(figures)) return figures.get(0);
             }
 
-            for (y = 0; y < field.getSize(); y++) {
-                f1 = field.getFigure(new Point(0, y));
-                f2 = field.getFigure(new Point(1, y));
-                f3 = field.getFigure(new Point(2, y));
-
-                if (check(f1, f2, f3)) return f1;
+            // Vertical scan
+            for (y = field.minY(); y <= field.maxY(); y++) {
+                figures.clear();
+                for (x = field.minX(); x <= field.maxX(); x++) {
+                    f = field.getFigure(new Point(x, y));
+                    figures.add(f);
+                }
+                if (check(figures)) return figures.get(0);
             }
 
-            f1 = field.getFigure(new Point(0, 0));
-            f2 = field.getFigure(new Point(1, 1));
-            f3 = field.getFigure(new Point(2, 2));
+            // Diagonal scan 1
+            figures.clear();
+            for (c = field.minX(); c <= field.maxX(); c++) {
+                f = field.getFigure(new Point(c, c));
+                figures.add(f);
+            }
+            if (check(figures)) return figures.get(0);
 
-            if (check(f1, f2, f3)) return f1;
-
-            f1 = field.getFigure(new Point(0, 2));
-            f2 = field.getFigure(new Point(1, 1));
-            f3 = field.getFigure(new Point(2, 0));
-
-            if (check(f1, f2, f3)) return f1;
+            // Diagonal scan 2
+            figures.clear();
+            for (c = field.minX(); c <= field.maxX(); c++) {
+                f = field.getFigure(new Point(c, field.maxY()-c));
+                figures.add(f);
+            }
+            if (check(figures)) return figures.get(0);
 
         } catch (InvalidPointException e) {
             e.printStackTrace();
@@ -58,7 +69,17 @@ public class WinnerController {
         return null;
     }
 
-    private boolean check(Figure f1, Figure f2, Figure f3) {
-        return f1 != null && f1 == f2 && f1 == f3;
+    private boolean check(List<Figure> figures) {
+        if (figures.get(0) == null) {
+            return false;
+        }
+        int count = 0;
+        for (Figure f : figures) {
+            if (f != figures.get(0)) {
+                return false;
+            }
+            count++;
+        }
+        return count >= countToWin;
     }
 }
