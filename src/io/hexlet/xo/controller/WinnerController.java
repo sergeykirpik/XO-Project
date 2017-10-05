@@ -4,9 +4,7 @@ import io.hexlet.xo.model.Field;
 import io.hexlet.xo.model.Figure;
 import io.hexlet.xo.model.exception.InvalidPointException;
 
-import java.awt.Point;
-import java.util.ArrayList;
-import java.util.List;
+import java.awt.*;
 
 class WinnerController {
 
@@ -22,45 +20,28 @@ class WinnerController {
     Figure getWinner() {
 
         try {
-            List<Figure> figures = new ArrayList<>();
-            int x, y, c;
-            Figure f;
-
             // Horizontal scan
-            for (x = field.minX(); x <= field.maxX(); x++) {
-                figures.clear();
-                for (y = field.minY(); y <= field.maxY(); y++) {
-                    f = field.getFigure(new Point(x, y));
-                    figures.add(f);
+            for (int k = field.minY(); k <= field.maxY(); k++) {
+                if (check(1, new Point(0, k), p -> new Point(p.x+1,p.y))){
+                    return field.getFigure(0, k);
                 }
-                if (check(figures)) return figures.get(0);
             }
 
             // Vertical scan
-            for (y = field.minY(); y <= field.maxY(); y++) {
-                figures.clear();
-                for (x = field.minX(); x <= field.maxX(); x++) {
-                    f = field.getFigure(new Point(x, y));
-                    figures.add(f);
+            for (int k = field.minX(); k <= field.maxX(); k++) {
+                if (check(1, new Point(k, 0), p -> new Point(p.x,p.y+1))){
+                    return field.getFigure(k, 0);
                 }
-                if (check(figures)) return figures.get(0);
             }
 
-            // Diagonal scan 1
-            figures.clear();
-            for (c = field.minX(); c <= field.maxX(); c++) {
-                f = field.getFigure(new Point(c, c));
-                figures.add(f);
+            // Diagonal scan
+            if (check(1, new Point(0, 0), p -> new Point(p.x+1, p.y+1))){
+                return field.getFigure(0, 0);
             }
-            if (check(figures)) return figures.get(0);
 
-            // Diagonal scan 2
-            figures.clear();
-            for (c = field.minX(); c <= field.maxX(); c++) {
-                f = field.getFigure(new Point(c, field.maxY()-c));
-                figures.add(f);
+            if (check(1, new Point(0, field.maxY()), p -> new Point(p.x+1, p.y-1))){
+                return field.getFigure(0, field.maxY());
             }
-            if (check(figures)) return figures.get(0);
 
         } catch (InvalidPointException e) {
             e.printStackTrace();
@@ -69,17 +50,28 @@ class WinnerController {
         return null;
     }
 
-    private boolean check(List<Figure> figures) {
-        if (figures.get(0) == null) {
-            return false;
-        }
-        int count = 0;
-        for (Figure f : figures) {
-            if (f != figures.get(0)) {
+    private boolean check(int count, Point point, PointGenerator pointGenerator) {
+
+        Figure currentFigure, nextFigure;
+        Point nextPoint = pointGenerator.next(point);
+        try {
+            currentFigure = field.getFigure(point);
+            nextFigure = field.getFigure(nextPoint);
+            if (currentFigure == null) {
                 return false;
             }
-            count++;
+        } catch (InvalidPointException e) {
+            return count >= countToWin;
         }
-        return count >= countToWin;
+
+        if (currentFigure != nextFigure) {
+            return count >= countToWin;
+        }
+
+        return check(count+1, nextPoint, pointGenerator);
+    }
+
+    private interface PointGenerator {
+        Point next(final Point point);
     }
 }
